@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../components/Elements/Button";
 import CardProduct from "../components/Fragments/CardProduct";
 
@@ -58,6 +58,15 @@ const ProductsPage = () => {
     localStorage.removeItem("password");
     window.location.href = "/login";
   };
+
+  const totalPriceRef = useRef(null);
+  useEffect(() => {
+    if (cart.length > 0) {
+      totalPriceRef.current.style.display = "table-row";
+    } else {
+      totalPriceRef.current.style.display = "none";
+    }
+  }, [cart]);
   return (
     <>
       <div className="w-full h-20 bg-blue-500 flex justify-end items-center pr-10 gap-5">
@@ -107,7 +116,7 @@ const ProductsPage = () => {
                 );
               })}
             </tbody>
-            <tr>
+            <tr ref={totalPriceRef}>
               <td colSpan={3} className="font-bold">
                 Total Price
               </td>
