@@ -1,32 +1,33 @@
+import { Link } from "react-router-dom";
 import Button from "../Elements/Button";
 
 const CardProduct = ({ children }) => {
   //   const { children } = props;
   return (
-    <div className="w-full max-w-xs bg-gray-800 border border-gray-600 rounded-lg shadow flex flex-col justify-between mx-2 my-2">
+    <div className="flex flex-col justify-between w-full max-w-xs mx-2 my-2 bg-gray-800 border border-gray-600 rounded-lg shadow">
       {children}
     </div>
   );
 };
 
-const Image = ({ sumber }) => {
+const Image = ({ id, sumber }) => {
   return (
-    <a href="#">
+    <Link to={`/product/${id}`}>
       <img
         src={sumber}
         alt="product"
-        className="p-8 rounded-t-lg h-60 w-full object-cover"
+        className="object-cover w-full p-8 rounded-t-lg h-60"
       />
-    </a>
+    </Link>
   );
 };
 
 const Body = ({ name, children }) => {
   return (
-    <div className="p-5 h-full">
+    <div className="h-full p-5">
       <a href="#">
         <h5 className="text-xl font-bold tracking-tight text-white">{name}</h5>
-        <p className="text-m text-white">{children.substring(0, 100)}...</p>
+        <p className="text-white text-m">{children.substring(0, 100)}...</p>
       </a>
     </div>
   );

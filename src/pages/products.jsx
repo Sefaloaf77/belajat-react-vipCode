@@ -3,6 +3,7 @@ import Button from "../components/Elements/Button";
 import CardProduct from "../components/Fragments/CardProduct";
 import { getProduct } from "../services/product.service";
 import { getUsername } from "../services/auth.service";
+import { useLogin } from "../hooks/useLogin";
 
 // const products = [
 //   {
@@ -29,17 +30,11 @@ const ProductsPage = () => {
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [products, setProducts] = useState([]);
-  const [username, setUsername] = useState("");
+  const username = useLogin();
 
   //ambil data dari local storage
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart")) || []);
-  }, []);
-
-  // decode username dari API untuk ditampilkan di navbar
-  useEffect(() => {
-    const dataFromToken = localStorage.getItem('token')
-    setUsername(getUsername(dataFromToken))
   }, []);
 
   //ambil data products dari API
@@ -90,16 +85,16 @@ const ProductsPage = () => {
 
   return (
     <>
-      <div className="w-full h-20 bg-blue-500 flex justify-end items-center pr-10 gap-5 text-white">
+      <div className="flex items-center justify-end w-full h-20 gap-5 pr-10 text-white bg-blue-500">
         <p>{username}</p>
         <Button onClick={handleLogout}>Logout</Button>
       </div>
       <div className="flex justify-around py-5">
-        <div className="w-4/6 flex flex-wrap">
+        <div className="flex flex-wrap w-4/6">
           {products.length > 0 &&
             products.map((product) => (
               <CardProduct key={product.id}>
-                <CardProduct.Image sumber={product.image} />
+                <CardProduct.Image sumber={product.image} id={product.id} />
                 <CardProduct.Body name={product.title}>
                   {product.description}
                 </CardProduct.Body>
@@ -112,8 +107,8 @@ const ProductsPage = () => {
             ))}
         </div>
         <div className="w-2/6">
-          <h1 className="text-3xl font-bold text-blue-600 ml-5 mb-2">Cart</h1>
-          <table className="text-left table-auto border-separate border-spacing-x-5">
+          <h1 className="mb-2 ml-5 text-3xl font-bold text-blue-600">Cart</h1>
+          <table className="text-left border-separate table-auto border-spacing-x-5">
             <thead>
               <tr>
                 <th>Product</th>
